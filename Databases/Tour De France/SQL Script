@@ -1,0 +1,80 @@
+CREATE TABLE riders (
+    rider_id INT PRIMARY KEY,
+    name VARCHAR(255),
+    team_id INT,
+    year_born YEAR,
+    height_cms FLOAT,
+    weight_kgs FLOAT,
+    country_id INT,
+    bmi FLOAT
+);
+
+CREATE TABLE teams (
+    team_id INT PRIMARY KEY,
+    name VARCHAR(255),
+    country_id INT,
+    description TEXT,
+    manager VARCHAR(255)
+);
+
+CREATE TABLE countries (
+    country_id INT PRIMARY KEY,
+    name VARCHAR(255),
+    area_sqkm INT,
+    population INT
+);
+
+CREATE TABLE stages (
+    stage_id INT PRIMARY KEY,
+    took_place DATE,
+    start_loc VARCHAR(255),
+    end_loc VARCHAR(255),
+    distance FLOAT,
+    description TEXT
+);
+
+CREATE TABLE results (
+    stage_id INT,
+    rider_id INT,
+    time_seconds INT,
+    PRIMARY KEY (stage_id, rider_id),
+    FOREIGN KEY (stage_id) REFERENCES stages(stage_id),
+    FOREIGN KEY (rider_id) REFERENCES riders(rider_id)
+);
+
+CREATE TABLE pivot_test (
+    id INT PRIMARY KEY,
+    customer_id INT,
+    product_code VARCHAR(5),
+    quantity INT
+);
+INSERT INTO riders (rider_id, name, team_id, year_born, height_cms, weight_kgs, country_id, bmi) VALUES
+(1, 'John Doe', 101, 1985, 180, 70, 1, 21.6),
+(2, 'Jane Smith', 102, 1990, 170, 60, 2, 20.8),
+(3, 'Alex Johnson', 103, 1988, 175, 65, 3, 21.2),
+(4, 'Chris Lee', 104, 1987, 182, 75, 4, 22.6),
+(5, 'Patricia Brown', 105, 1992, 168, 58, 5, 20.5);
+INSERT INTO teams (team_id, name, country_id, description, manager) VALUES
+(101, 'Team Alpha', 1, 'An elite cycling team.', 'Manager A'),
+(102, 'Team Beta', 2, 'A team known for endurance.', 'Manager B'),
+(103, 'Team Gamma', 3, 'Focused on speed and agility.', 'Manager C'),
+(104, 'Team Delta', 4, 'A team with a rich history in cycling.', 'Manager D'),
+(105, 'Team Epsilon', 5, 'Innovative strategies and techniques.', 'Manager E');
+INSERT INTO countries (country_id, name, area_sqkm, population) VALUES
+(1, 'Country A', 500000, 10000000),
+(2, 'Country B', 350000, 8000000),
+(3, 'Country C', 600000, 12000000),
+(4, 'Country D', 400000, 9000000),
+(5, 'Country E', 450000, 7000000);
+INSERT INTO stages (stage_id, took_place, start_loc, end_loc, distance, description) VALUES
+(1, '2021-07-01', 'Location 1', 'Location 2', 120.5, 'Mountain stage'),
+(2, '2021-07-02', 'Location 3', 'Location 4', 100.0, 'Flat stage'),
+(3, '2021-07-03', 'Location 5', 'Location 6', 140.2, 'Hilly stage'),
+(4, '2021-07-04', 'Location 7', 'Location 8', 95.3, 'City circuit'),
+(5, '2021-07-05', 'Location 9', 'Location 10', 110.7, 'Time trial');
+INSERT INTO results (stage_id, rider_id, time_seconds) VALUES
+(1, 1, 3600),
+(1, 2, 3625),
+(2, 3, 3000),
+(2, 4, 3050),
+(3, 5, 4000);
