@@ -1,0 +1,40 @@
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY year_born) AS row_num,
+    rider_id, 
+    name, 
+    year_born 
+FROM 
+    riders;
+
+-- CASE
+SELECT 
+    SUM(CASE WHEN product_code = 'A' THEN quantity ELSE 0 END) AS 'A',
+    SUM(CASE WHEN product_code = 'B' THEN quantity ELSE 0 END) AS 'B',
+    SUM(CASE WHEN product_code = 'C' THEN quantity ELSE 0 END) AS 'C'
+FROM 
+    case_test;
+
+SELECT Stage_ID, Rider_ID, Time_Seconds, Time_Seconds - LAG(Time_Seconds,1,0) OVER (ORDER BY Time_Seconds) as difference
+From Results WHERE stage_id = 'S0';
+
+
+
+SELECT stage_id, distance, 
+LEAD(distance, 1, 0) over (ORDER BY took_place) AS difference_Stage
+FROM STAGES;
+
+
+SELECT stage_ID, name, time_seconds, team_ID, 
+RANK() OVER (PARTITION BY team_ID ORDER BY time_seconds) AS placing_in_team
+FROM RESULTS r, RIDERS s
+WHERE r.rider_id= s.rider_id
+AND stage_id='S0';
+
+
+SELECT 
+    NTILE(4) OVER (ORDER BY year_born) AS ntile_group,
+    rider_id, 
+    name, 
+    year_born 
+FROM 
+    riders;
